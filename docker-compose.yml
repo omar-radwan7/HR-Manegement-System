@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hrm-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - hrm-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: hrm-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hrm-network
+
+  api:
+    build:
+      context: .
+      dockerfile: HRM.Api/Dockerfile
+    container_name: hrm-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=HRMDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - Redis__ConnectionString=redis:6379
+    ports:
+      - "5000:8080"
+    depends_on:
+      - sqlserver
+      - redis
+    networks:
+      - hrm-network
+
+  web:
+    build:
+      context: .
+      dockerfile: HRM.Web/Dockerfile
+    container_name: hrm-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiBaseUrl=http://api:8080
+    ports:
+      - "5001:8080"
+    depends_on:
+      - api
+    networks:
+      - hrm-network
+
+volumes:
+  sqlserver_data:
+  redis_data:
+
+networks:
+  hrm-network:
+    driver: bridge
+
