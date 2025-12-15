@@ -111,12 +111,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(e => e.ContractId)
             .OnDelete(DeleteBehavior.SetNull);
-
-        builder.Entity<Employee>()
-            .HasMany(e => e.Contracts)
-            .WithOne(c => c.Employee)
-            .HasForeignKey(c => c.EmployeeId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private void ConfigureDepartment(ModelBuilder builder)
@@ -157,7 +151,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(c => c.Employee)
             .WithMany(e => e.Contracts)
             .HasForeignKey(c => c.EmployeeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
     private void ConfigureBranch(ModelBuilder builder)

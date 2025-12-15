@@ -981,7 +981,7 @@ namespace HRM.Infrastructure.Migrations
                     b.HasOne("HRM.Domain.Entities.Employee", "Employee")
                         .WithMany("Contracts")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Employee");

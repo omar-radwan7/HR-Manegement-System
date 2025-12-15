@@ -7,7 +7,6 @@ namespace HRM.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class LeaveRequestsController : ControllerBase
 {
     private readonly ILeaveService _leaveService;

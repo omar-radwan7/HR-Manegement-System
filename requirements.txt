@@ -1,0 +1,9 @@
+.NET 6.0 SDK or later
+Entity Framework Core tools 6.0.33 (dotnet-ef)
+SQL Server 2019 or later (or Docker SQL Server container)
+Docker and Docker Compose (optional, for full stack containers)
+Redis (optional, for caching)
+EF Core Design package installed in startup project (HRM.Api)
+Serilog sinks (Console, File) configured via NuGet packages
+Hangfire 1.8.x (Core, SQL Server, AspNetCore)
+

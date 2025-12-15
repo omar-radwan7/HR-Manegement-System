@@ -804,7 +804,7 @@ namespace HRM.Infrastructure.Migrations
                 column: "EmployeeId",
                 principalTable: "Employees",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Departments_Employees_ManagerId",
